@@ -141,3 +141,6 @@ if __name__ == "__main__":
     SD_SCHUL_CODE = "7530847"
 
     save_today_meal(API_KEY, ATPT_OFCDC_SC_CODE, SD_SCHUL_CODE)
+
+
+print("test")
