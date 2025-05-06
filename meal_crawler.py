@@ -28,22 +28,82 @@ def fetch_meal_data(api_key, atpt_code, sch_code, mlmeal_code=None, mlsv_ymd=Non
             return None
     else:
         return None
-
-# 급식 문자열 예쁘게 다듬는 함수 (그대로 유지)
+    
 def beautify_dish_name(dish_str):
+    """
+    DDISH_NM 문자열에서 HTML 태그 및 괄호 내부 제거,
+    각 요리명 뒤의 숫자/기호 제거하여 예쁜 문자열로 반환
+    """
+    # <br/> 태그 기준으로 분할
     lines = re.split(r'<br\s*/?>', dish_str)
     pretty_lines = []
     for line in lines:
         line = line.strip()
         if not line:
             continue
+        # 괄호 및 괄호 안 내용 제거
+        line = re.sub(r'\([^)]*\)', '', line).strip()
+
+        # 숫자 등장 전까지만 남기기
         match = re.search(r'\d', line)
         if match:
             line = line[:match.start()].strip()
+        
         pretty_lines.append(line)
     return "\n".join(pretty_lines)
 
-# API 호출 및 결과 JSON 저장하는 함수
+"""
+# ✅ 콘솔에 보기 좋게 급식을 출력하는 함수 추가
+def print_meal_info(meal_data, date):
+    meal_service = meal_data.get('mealServiceDietInfo')
+    if meal_service:
+        meal_info = meal_service[1].get('row')
+        if meal_info:
+            for meal in meal_info:
+                print("----------------------------")
+                print("날짜 :", date)
+                print("- 오늘의 급식 -")
+                dish_name = meal.get("DDISH_NM", "")
+                pretty_dish = beautify_dish_name(dish_name)
+                print(pretty_dish)
+                print("----------------------------")
+        else:
+            print("급식 정보가 없습니다.")
+    else:
+        print("급식 서비스 데이터가 없습니다.")
+"""
+
+def print_meal_info(meal_data, date):
+    """
+    급식 정보를 보기 좋게 출력하는 함수
+    """
+    meal_service = meal_data.get('mealServiceDietInfo')
+    if meal_service:
+        meal_info = meal_service[1].get('row')
+        if meal_info:
+            for meal in meal_info:
+                print("----------------------------")
+                print("날짜 : ", date)
+                #print("학교명:", meal.get("SCHUL_NM"))
+                #print("식사명:", meal.get("MMEAL_SC_NM"))
+                #print("급식일자:", meal.get("MLSV_YMD"))
+                #print("급식인원수:", meal.get("MLSV_FGR"))
+                # DDISH_NM 항목을 예쁘게 변환하여 출력
+                dish_name = meal.get("DDISH_NM", "")
+                pretty_dish = beautify_dish_name(dish_name)
+                print("-오늘의 급식")
+                print(pretty_dish)
+                #print("원산지정보:", meal.get("ORPLC_INFO"))
+                #print("칼로리정보:", meal.get("CAL_INFO"))
+                #print("영양정보:", meal.get("NTR_INFO"))
+                print("----------------------------")
+        else:
+            print("급식 정보가 없습니다.")
+    else:
+        print("급식 서비스 데이터가 없습니다.")
+
+
+# API 호출 및 결과 JSON 저장하는 함수 (그대로 유지)
 def save_today_meal(api_key, atpt_code, sch_code):
     today = datetime.now().strftime("%Y%m%d")  # 오늘 날짜 (자동계산)
     meal_data = fetch_meal_data(api_key, atpt_code, sch_code, mlsv_ymd=today)
@@ -61,7 +121,9 @@ def save_today_meal(api_key, atpt_code, sch_code):
 
             with open("today_menu.json", "w", encoding="utf-8") as f:
                 json.dump(final_result, f, ensure_ascii=False, indent=4)
-            print("급식 저장 완료:", today)
+
+            # ✅ 저장 후 콘솔에 예쁘게 출력
+            print_meal_info(meal_data, today)
 
         except Exception as e:
             print("급식 데이터 처리 실패:", e)
