@@ -1,0 +1,34 @@
+name: Update Daily Meal
+
+on:
+  schedule:
+    - cron: '0 15 * * *' # 한국시간 매일 자정
+  workflow_dispatch:
+
+jobs:
+  update-meal:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install Dependencies
+        run: |
+          pip install requests
+
+      - name: Run Meal Crawler
+        run: |
+          python meal_crawler.py
+
+      - name: Commit and Push Changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "🔄 급식 데이터 자동 업데이트: $(date +'%Y-%m-%d')"
+          branch: main
+          file_pattern: 'today_menu.json'
