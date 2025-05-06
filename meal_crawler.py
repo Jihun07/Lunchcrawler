@@ -3,6 +3,11 @@ import json
 import re
 from datetime import datetime
 
+from datetime import datetime
+from zoneinfo import ZoneInfo  # Python 3.9 이상에서 사용 가능
+
+kst = ZoneInfo("Asia/Seoul")
+
 # API 호출 함수 (그대로 유지)
 def fetch_meal_data(api_key, atpt_code, sch_code, mlmeal_code=None, mlsv_ymd=None, pindex=1, psize=100):
     base_url = "https://open.neis.go.kr/hub/mealServiceDietInfo"
