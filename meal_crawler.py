@@ -142,4 +142,4 @@ if __name__ == "__main__":
     save_today_meal(API_KEY, ATPT_OFCDC_SC_CODE, SD_SCHUL_CODE)
 
 
-print("test2")
+print("test3")
