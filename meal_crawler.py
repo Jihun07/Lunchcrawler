@@ -109,7 +109,7 @@ def print_meal_info(meal_data, date):
 
 # API 호출 및 결과 JSON 저장하는 함수 (그대로 유지)
 def save_today_meal(api_key, atpt_code, sch_code):
-    today = (datetime.now(kst) + timedelta(days=1)).strftime("%Y%m%d")
+    today = (datetime.now(kst) + timedelta(days=2)).strftime("%Y%m%d")
     meal_data = fetch_meal_data(api_key, atpt_code, sch_code, mlsv_ymd=today)
 
     if meal_data and 'mealServiceDietInfo' in meal_data:
