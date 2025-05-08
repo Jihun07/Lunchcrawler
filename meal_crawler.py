@@ -132,7 +132,7 @@ def save_today_meal(api_key, atpt_code, sch_code):
             print("급식 데이터 처리 실패:", e)
 
             fallback_result = {
-                "date": " ",
+                "date": today,
                 "menu": "급식 정보가 없습니다"
             }
 
@@ -143,7 +143,7 @@ def save_today_meal(api_key, atpt_code, sch_code):
         print("급식 정보가 없습니다.", today)
 
         fallback_result = {
-            "date": " ",
+            "date": today,
             "menu": "급식 정보가 없습니다"
         }
 
