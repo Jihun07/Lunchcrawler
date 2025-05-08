@@ -32,4 +32,4 @@ jobs:
         with:
           commit_message: "🔄 급식 데이터 자동 업데이트: $(date +'%Y-%m-%d')"
           branch: main
-          file_pattern: 'today_menu.json'
+          commit_options: "--all"
