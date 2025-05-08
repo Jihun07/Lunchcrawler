@@ -1,9 +1,8 @@
 import requests
 import json
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
 
-from datetime import datetime
 from zoneinfo import ZoneInfo  # Python 3.9 이상에서 사용 가능
 
 kst = ZoneInfo("Asia/Seoul")
