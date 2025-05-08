@@ -126,13 +126,29 @@ def save_today_meal(api_key, atpt_code, sch_code):
             with open("today_menu.json", "w", encoding="utf-8") as f:
                 json.dump(final_result, f, ensure_ascii=False, indent=4)
 
-            # ✅ 저장 후 콘솔에 예쁘게 출력
             print_meal_info(meal_data, today)
 
         except Exception as e:
             print("급식 데이터 처리 실패:", e)
+
+            fallback_result = {
+                "date": " ",
+                "menu": "급식 정보가 없습니다"
+            }
+
+            with open("today_menu.json", "w", encoding="utf-8") as f:
+                json.dump(fallback_result, f, ensure_ascii=False, indent=4)
+
     else:
         print("급식 정보가 없습니다.", today)
+
+        fallback_result = {
+            "date": " ",
+            "menu": "급식 정보가 없습니다"
+        }
+
+        with open("today_menu.json", "w", encoding="utf-8") as f:
+            json.dump(fallback_result, f, ensure_ascii=False, indent=4)
 
 if __name__ == "__main__":
     API_KEY = "1fb60bd35f834cd5bb50b33be4fe03d4"
