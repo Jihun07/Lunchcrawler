@@ -27,13 +27,12 @@ jobs:
         run: |
           python meal_crawler.py
 
-      - name: Pull latest changes
-        run: git pull origin main --rebase
-
       - name: Commit and Push Changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "🔄 급식 자동 업데이트 (강제)"
           branch: main
           commit_options: "--all"
+          push_options: "--force"
+
 
