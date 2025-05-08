@@ -2,7 +2,7 @@ name: Update Daily Meal
 
 on:
   schedule:
-    - cron: '*/1 * * * *' # 한국시간 매일 자정
+    - cron: '0 8 * * *'  # 한국시간 매일 오후 5시
   workflow_dispatch:
 
 jobs:
