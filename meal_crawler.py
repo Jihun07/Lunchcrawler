@@ -38,10 +38,6 @@ def fetch_meal_data(api_key, atpt_code, sch_code, mlmeal_code=None, mlsv_ymd=Non
         return None
     
 def beautify_dish_name(dish_str):
-    """
-    DDISH_NM 문자열에서 HTML 태그 및 괄호 내부 제거,
-    각 요리명 뒤의 숫자/기호 제거하여 예쁜 문자열로 반환
-    """
    
     lines = re.split(r'<br\s*/?>', dish_str)
     pretty_lines = []
